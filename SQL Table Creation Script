@@ -1,0 +1,70 @@
+-- Drop tables if they exist
+DROP TABLE IF EXISTS Engagement_Data;
+DROP TABLE IF EXISTS Customer_Reviews;
+DROP TABLE IF EXISTS Customer_Journey;
+DROP TABLE IF EXISTS Geography;
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Customer;
+
+-- Create Customer Table
+CREATE TABLE IF NOT EXISTS Customer (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(255),
+    Email VARCHAR(255),
+    Gender VARCHAR(10),
+    Age INT,
+    GeographyID INT
+);
+
+-- Create Products Table
+CREATE TABLE IF NOT EXISTS Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(255),
+    Category VARCHAR(255),
+    Price DECIMAL(10,2)
+);
+
+-- Create Geography Table
+CREATE TABLE IF NOT EXISTS Geography (
+    GeographyID INT PRIMARY KEY,
+    Country VARCHAR(255),
+    City VARCHAR(255)
+);
+
+-- Create Customer Journey Table
+CREATE TABLE IF NOT EXISTS Customer_Journey (
+    JourneyID INT PRIMARY KEY,
+    CustomerID INT,
+    ProductID INT,
+    VisitDate DATE,
+    Stage VARCHAR(50),
+    Action VARCHAR(50),
+    Duration INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Create Customer Reviews Table
+CREATE TABLE IF NOT EXISTS Customer_Reviews (
+    ReviewID INT PRIMARY KEY,
+    CustomerID INT,
+    ProductID INT,
+    ReviewDate DATE,
+    Rating INT,
+    ReviewText TEXT,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Create Engagement Data Table
+CREATE TABLE IF NOT EXISTS Engagement_Data (
+    EngagementID INT PRIMARY KEY,
+    ContentID INT,
+    ContentType VARCHAR(255),
+    Likes INT,
+    EngagementDate DATE,
+    CampaignID INT,
+    ProductID INT,
+    ViewsClicksCombined VARCHAR(255),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
